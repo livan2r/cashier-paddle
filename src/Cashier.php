@@ -113,7 +113,7 @@ class Cashier
      *
      * @throws \Laravel\Paddle\Exceptions\PaddleException
      */
-    public static function api($method, $uri, array $payload = [])
+    public static function api($method, $uri, array $payload = [], string $contentType = 'asJson')
     {
         if (empty($apiKey = config('cashier.api_key', config('cashier.auth_code')))) {
             throw new Exception('Paddle API key not set.');
@@ -123,6 +123,7 @@ class Cashier
 
         /** @var \Illuminate\Http\Client\Response $response */
         $response = Http::withToken($apiKey)
+            ->$contentType()
             ->withUserAgent('Laravel\Paddle/'.static::VERSION)
             ->withHeaders(['Paddle-Version' => 1])
             ->$method("{$host}/{$uri}", $payload);

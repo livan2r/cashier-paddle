@@ -596,7 +596,7 @@ class Subscription extends Model
      */
     public function activate()
     {
-        $response = Cashier::api('POST', "subscriptions/{$this->paddle_id}/activate")['data'];
+        $response = Cashier::api('POST', "subscriptions/{$this->paddle_id}/activate", [], 'asForm')['data'];
 
         $this->forceFill([
             'status' => $response['status'],
